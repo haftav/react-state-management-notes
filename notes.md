@@ -5,8 +5,6 @@
 - Job of React is to take your application state and turn it into DOM nodes
     - It takes your data, applies rules, and determines what is shown on your page. And takes care of updating when your state changes.
     - This is different from legacy web development, when the state of the application was often included as part of the markup
- 
-> **Note**: He mentioned creating blueprints for how state should be handled in client side applications before starting to code. Think this could be very useful for our team
 
 - There are many kinds of state.
     - Model data
