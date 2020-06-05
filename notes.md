@@ -103,5 +103,34 @@
 - Also makes testing more challenging, although there are workarounds (test context provider, HOC)
 
 ## Data Fetching
+- In class based components we would use `componentDidMount` - for functional components, `useEffect` is the simplest way to fetch data
+- It's pretty easy to pull out the fetching logic into a custom hook that also handles setting error/loading states and returning your response
+    - `useReducer` could be handy in this case to handle switching between the different fetching/response/error states (or in any situation where you find your state getting more complicated)
+- Hooks are great ways to separate reuseable logic (whether that be data fetching, parsing, side effects, etc.) from components. This allows you to handle your logic in a separate place while allowing your components to focus on rendering the UI.
 
 ## Thunks
+- Reducers themselves don't have an idea of asynchrony
+- redux-thunk is a common middleware to handle this issue
+    - Major idea behind a thunk is that it's code to execute later
+    - A thunk is just a function returned from another function 
+    - In the action creators, instead of dispatching the action directly, we can use the thunk to dispatch the action once the async code finishes executing.
+
+Example:
+```javascript
+    const useThunkReducer = (reducer, initialState) => {
+        const [state, dispatch] = useReducer(reducer, initialState);
+
+        const enhancedDispatch = action => {
+            // using typeof for simplicity, could also use more robust isFunction check from lodash
+            if (typeof action === 'function') {
+                action(dispatch);
+            } else {
+                dispatch(action);
+            }
+        }
+
+        return [state, enhancedDispatch];
+    }
+```
+
+- We now have a way to write our async code that is completely separate from the reducer or component it's used in
