@@ -80,6 +80,27 @@
         - Similar use case as `useCallback` but with object references
 
 ## Context
+- Provides a way to pass props through the component tree without having to pass them manually through every level.
+- Is it a substitute for redux? Maybe - but it won't provide many of the build in features that redux provides, such as middleware, performance enhancements, etc.
+
+
+- `React.createContext()`
+    - Returns object with `Provider` and `Consumer` components as properties
+    - Pass a `value` prop to `Provider`, and children components can access that data by using the render prop pattern (child as a function) with the `Consumer` component.
+        ```javascript
+            <ExampleContext.Provider value={0}>
+                <ExampleContext.Consumer>
+                    {value => <p>{value}</p>}
+                </ExampleContext.Consumer>
+            </ExampleContext.Provider>
+        ```
+    - In a functional component, you can just use the `useContext` hook instead of the consumer component to access the context data.
+        ```javascript
+            const contextData = React.useContext(ExampleContext)
+        ```
+- One downside to context is that you lose performance optimizations from `React.memo` since you're reading from context instead of passing in props 
+
+- Also makes testing more challenging, although there are workarounds (test context provider, HOC)
 
 ## Data Fetching
 
